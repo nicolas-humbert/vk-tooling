@@ -7,13 +7,21 @@
     "dev:api": "pnpm --filter @vk/api dev",
     "build": "pnpm --filter @vk/web build",
     "build:api": "pnpm --filter @vk/api build",
-    "lint": "pnpm -r lint"
+    "tsc": "pnpm --filter @vk/web build --noEmit",
+    "lint": "pnpm -r lint",
+    "studio": "pnpm --filter @vk/api exec prisma studio"
   },
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@nestjs/core", "@prisma/client", "@prisma/engines", "prisma"]
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma",
+      "bcrypt"
+    ]
   }
 }
