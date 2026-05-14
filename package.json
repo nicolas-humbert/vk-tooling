@@ -1,0 +1,14 @@
+{
+  "name": "vk-tooling",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @vk/web dev",
+    "build": "pnpm --filter @vk/web build",
+    "lint": "pnpm --filter @vk/web lint"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}
