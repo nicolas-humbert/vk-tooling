@@ -9,7 +9,8 @@
     "build:api": "pnpm --filter @vk/api build",
     "tsc": "pnpm --filter @vk/web build --noEmit",
     "lint": "pnpm -r lint",
-    "studio": "pnpm --filter @vk/api exec prisma studio"
+    "studio": "pnpm --filter @vk/api exec prisma studio",
+    "dev:all": "docker compose up -d postgres && concurrently -n postgres,api,web,studio -c blue,yellow,green,magenta \"docker compose logs -f postgres\" \"pnpm dev:api\" \"pnpm dev\" \"pnpm studio\""
   },
   "engines": {
     "node": ">=20",
@@ -23,5 +24,8 @@
       "prisma",
       "bcrypt"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
