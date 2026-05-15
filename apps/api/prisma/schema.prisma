@@ -6,14 +6,36 @@ datasource db {
   provider = "postgresql"
 }
 
+enum OpportunityStatus {
+  IN_PROGRESS
+  WAITING_CLIENT
+  BLOCKED
+  PAUSED
+  COMPLETED
+}
+
+enum PipelineType {
+  SALES
+  PRODUCTION
+}
+
+enum StageFinalType {
+  WON
+  LOST
+  COMPLETED
+  ARCHIVED
+  CANCELLED
+}
+
 model User {
-  id            Int            @id @default(autoincrement())
-  email         String         @unique
-  name          String?
-  password      String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  refreshTokens RefreshToken[]
+  id               Int                          @id @default(autoincrement())
+  email            String                       @unique
+  name             String?
+  password         String
+  createdAt        DateTime                     @default(now())
+  updatedAt        DateTime                     @updatedAt
+  refreshTokens    RefreshToken[]
+  stageTransitions OpportunityStageTransition[]
 }
 
 model RefreshToken {
@@ -23,4 +45,87 @@ model RefreshToken {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model Contact {
+  id            Int                   @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String?               @unique
+  phone         String?
+  createdAt     DateTime              @default(now())
+  organizations ContactOrganization[]
+  opportunities Opportunity[]
+}
+
+model Organization {
+  id            Int                   @id @default(autoincrement())
+  name          String
+  website       String?
+  industry      String?
+  contacts      ContactOrganization[]
+  opportunities Opportunity[]
+}
+
+model ContactOrganization {
+  contactId      Int
+  organizationId Int
+  contact        Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@id([contactId, organizationId])
+}
+
+model Pipeline {
+  id            Int             @id @default(autoincrement())
+  name          String
+  type          PipelineType
+  stages        PipelineStage[]
+  opportunities Opportunity[]
+}
+
+model PipelineStage {
+  id              Int                          @id @default(autoincrement())
+  pipelineId      Int
+  pipeline        Pipeline                     @relation(fields: [pipelineId], references: [id])
+  name            String
+  order           Int
+  isFinal         Boolean                      @default(false)
+  finalType       StageFinalType?
+  opportunities   Opportunity[]                @relation("currentStage")
+  transitionsFrom OpportunityStageTransition[] @relation("fromStage")
+  transitionsTo   OpportunityStageTransition[] @relation("toStage")
+}
+
+model Opportunity {
+  id               Int                          @id @default(autoincrement())
+  title            String
+  contactId        Int?
+  contact          Contact?                     @relation(fields: [contactId], references: [id])
+  organizationId   Int?
+  organization     Organization?                @relation(fields: [organizationId], references: [id])
+  pipelineId       Int
+  pipeline         Pipeline                     @relation(fields: [pipelineId], references: [id])
+  currentStageId   Int
+  currentStage     PipelineStage                @relation("currentStage", fields: [currentStageId], references: [id])
+  estimatedValue   Decimal?
+  currentStatus    OpportunityStatus            @default(IN_PROGRESS)
+  createdAt        DateTime                     @default(now())
+  updatedAt        DateTime                     @updatedAt
+  closedAt         DateTime?
+  stageTransitions OpportunityStageTransition[]
+}
+
+model OpportunityStageTransition {
+  id            Int            @id @default(autoincrement())
+  opportunityId Int
+  opportunity   Opportunity    @relation(fields: [opportunityId], references: [id])
+  fromStageId   Int?
+  fromStage     PipelineStage? @relation("fromStage", fields: [fromStageId], references: [id])
+  toStageId     Int
+  toStage       PipelineStage  @relation("toStage", fields: [toStageId], references: [id])
+  changedAt     DateTime       @default(now())
+  changedById   Int
+  changedBy     User           @relation(fields: [changedById], references: [id])
+  reason        String?
 }
