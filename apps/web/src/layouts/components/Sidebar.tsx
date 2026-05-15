@@ -7,20 +7,16 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import PeopleIcon from '@mui/icons-material/People'
-import DescriptionIcon from '@mui/icons-material/Description'
-import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
-import PollIcon from '@mui/icons-material/Poll'
+import PersonIcon from '@mui/icons-material/Person'
+import BusinessIcon from '@mui/icons-material/Business'
 import { NavLink } from 'react-router-dom'
 
 const DRAWER_WIDTH = 240
 
 const NAV_ITEMS = [
   { label: 'Tableau de bord', path: '/', icon: <DashboardIcon />, end: true },
-  { label: 'Clients', path: '/clients', icon: <PeopleIcon />, end: false },
-  { label: 'Devis', path: '/devis', icon: <DescriptionIcon />, end: false },
-  { label: 'Projets', path: '/projets', icon: <ViewKanbanIcon />, end: false },
-  { label: 'Enquêtes', path: '/enquetes', icon: <PollIcon />, end: false },
+  { label: 'Contacts', path: '/contacts', icon: <PersonIcon />, end: false },
+  { label: 'Organisations', path: '/organizations', icon: <BusinessIcon />, end: false },
 ]
 
 export default function Sidebar() {

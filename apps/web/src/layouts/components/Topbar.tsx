@@ -10,10 +10,8 @@ import { useAuth } from '@/context/AuthContext';
 
 const ROUTE_LABELS: Record<string, string> = {
   '/': 'Tableau de bord',
-  '/clients': 'Clients',
-  '/devis': 'Devis',
-  '/projets': 'Projets',
-  '/enquetes': 'Enquêtes',
+  '/contacts': 'Contacts',
+  '/organizations': 'Organisations',
 };
 
 export default function Topbar() {
