@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles'
 const BRUTALIST_SHADOW = '4px 4px 0px #000000'
 const BORDER = '2px solid #000000'
 
-export const theme = createTheme({
+export const brutalTheme = createTheme({
   shape: { borderRadius: 0 },
 
   palette: {
