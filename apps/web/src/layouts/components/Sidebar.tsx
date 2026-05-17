@@ -8,8 +8,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ButtonBase from '@mui/material/ButtonBase'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import PersonIcon from '@mui/icons-material/Person'
-import BusinessIcon from '@mui/icons-material/Business'
+import FolderIcon from '@mui/icons-material/Folder'
 import BoltIcon from '@mui/icons-material/Bolt'
 import AppsIcon from '@mui/icons-material/Apps'
 import SpaIcon from '@mui/icons-material/Spa'
@@ -20,8 +19,7 @@ const DRAWER_WIDTH = 240
 
 const NAV_ITEMS = [
   { label: 'Tableau de bord', path: '/', icon: <DashboardIcon />, end: true },
-  { label: 'Contacts', path: '/contacts', icon: <PersonIcon />, end: false },
-  { label: 'Organisations', path: '/organizations', icon: <BusinessIcon />, end: false },
+  { label: 'Projets', path: '/projets', icon: <FolderIcon />, end: false },
 ]
 
 const THEMES: { value: ThemeMode; label: string; Icon: React.ElementType }[] = [

@@ -6,49 +6,46 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const sales = await prisma.pipeline.upsert({
-    where: { id: 1 },
+  const video = await prisma.pipeline.upsert({
+    where: { name: 'Production Vidéo' },
     update: {},
     create: {
-      name: 'Sales',
-      type: PipelineType.SALES,
-      stages: {
-        create: [
-          { name: 'Lead', order: 1 },
-          { name: 'Qualification', order: 2 },
-          { name: 'Discovery', order: 3 },
-          { name: 'Proposal', order: 4 },
-          { name: 'Negotiation', order: 5 },
-          { name: 'Won', order: 6, isFinal: true, finalType: StageFinalType.WON },
-          { name: 'Lost', order: 7, isFinal: true, finalType: StageFinalType.LOST },
-        ],
-      },
-    },
-  });
-
-  const production = await prisma.pipeline.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      name: 'Production',
+      name: 'Production Vidéo',
       type: PipelineType.PRODUCTION,
       stages: {
         create: [
-          { name: 'Pre-production', order: 1 },
-          { name: 'Waiting Assets', order: 2 },
-          { name: 'Editing', order: 3 },
-          { name: 'Internal Review', order: 4 },
-          { name: 'Client Review', order: 5 },
-          { name: 'Revisions', order: 6 },
-          { name: 'Delivery', order: 7 },
-          { name: 'Completed', order: 8, isFinal: true, finalType: StageFinalType.COMPLETED },
-          { name: 'Archived', order: 9, isFinal: true, finalType: StageFinalType.ARCHIVED },
+          { name: 'Briefing', order: 1 },
+          { name: 'Pré-production', order: 2 },
+          { name: 'Tournage', order: 3 },
+          { name: 'Montage', order: 4 },
+          { name: 'Révision client', order: 5 },
+          { name: 'Livraison', order: 6, isFinal: true, finalType: StageFinalType.COMPLETED },
+          { name: 'Archivé', order: 7, isFinal: true, finalType: StageFinalType.ARCHIVED },
         ],
       },
     },
   });
 
-  console.log(`Seeded pipelines: ${sales.name} (id=${sales.id}), ${production.name} (id=${production.id})`);
+  const dev = await prisma.pipeline.upsert({
+    where: { name: 'Production Dev' },
+    update: {},
+    create: {
+      name: 'Production Dev',
+      type: PipelineType.PRODUCTION,
+      stages: {
+        create: [
+          { name: 'Specs', order: 1 },
+          { name: 'Dev', order: 2 },
+          { name: 'Review', order: 3 },
+          { name: 'Recette client', order: 4 },
+          { name: 'Livraison', order: 5, isFinal: true, finalType: StageFinalType.COMPLETED },
+          { name: 'Archivé', order: 6, isFinal: true, finalType: StageFinalType.ARCHIVED },
+        ],
+      },
+    },
+  });
+
+  console.log(`Seeded pipelines: ${video.name} (id=${video.id}), ${dev.name} (id=${dev.id})`);
 }
 
 main()

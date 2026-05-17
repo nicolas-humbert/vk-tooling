@@ -1,8 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import AppShell from '@/layouts/AppShell';
-import DashboardPage from '@/pages/dashboard';
-import ContactsPage from '@/pages/contacts';
-import OrganizationsPage from '@/pages/organizations';
+import DashboardPage from '@/pages/dashboard'
+import ProjetsPage from '@/pages/projets';
 import NotFoundPage from '@/pages/not-found';
 import LoginPage from '@/pages/login';
 import { useAuth } from '@/context/AuthContext';
@@ -29,8 +28,7 @@ export const router = createBrowserRouter([
         element: <AppShell />,
         children: [
           { index: true, element: <DashboardPage /> },
-          { path: 'contacts', element: <ContactsPage /> },
-          { path: 'organizations', element: <OrganizationsPage /> },
+          { path: 'projets', element: <ProjetsPage /> },
         ],
       },
     ],
